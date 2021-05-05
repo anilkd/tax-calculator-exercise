@@ -1,0 +1,39 @@
+
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.32'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// build a zip to be returned
+task done(type: Zip) {
+    dependsOn "build"
+    from "./"
+    include "*/**"
+    exclude("build", "gradle", ".**", "gradlew", "gradlew.bat")
+    archiveName "tax-calculator-${System.env.USER}.zip"
+}
+
+// build a zip to be sent out
+task prepare(type: Zip) {
+    from "./"
+    include "*/**"
+    exclude("build", ".gradle", ".idea")
+    archiveName "tax-calculator-exercise.zip"
+}
